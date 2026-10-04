@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Первый кадр — лаборатория для начинающих блогеров</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@500;700;800&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EEF0FF; --bg2:#E1E5FF; --panel:#FFFFFF; --ink:#12154A; --muted:#4B4F8A;
+  --cyan:#0A8DA1; --cyan-b:#14C9DA; --pink:#D61F7E; --violet:#6A4DE0;
+  --line:rgba(40,50,140,.22); --grid:rgba(40,50,140,.09);
+  --glow1:rgba(20,201,218,.30); --glow2:rgba(214,31,126,.20);
+  --on-accent:#070826; --soft:rgba(40,50,140,.07);
+  --head:"Exo 2","Trebuchet MS",Arial,sans-serif;
+  --body:"Manrope","Segoe UI",Roboto,Arial,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#080A28; --bg2:#0D1038; --panel:#11154A; --ink:#EDEBFF; --muted:#A9ACDA;
+    --cyan:#35E8F2; --cyan-b:#35E8F2; --pink:#FF4FA8; --violet:#9A86FF;
+    --line:rgba(160,170,255,.24); --grid:rgba(160,170,255,.08);
+    --glow1:rgba(53,232,242,.22); --glow2:rgba(255,79,168,.20); --soft:rgba(160,170,255,.09);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#080A28; --bg2:#0D1038; --panel:#11154A; --ink:#EDEBFF; --muted:#A9ACDA;
+  --cyan:#35E8F2; --cyan-b:#35E8F2; --pink:#FF4FA8; --violet:#9A86FF;
+  --line:rgba(160,170,255,.24); --grid:rgba(160,170,255,.08);
+  --glow1:rgba(53,232,242,.22); --glow2:rgba(255,79,168,.20); --soft:rgba(160,170,255,.09);
+}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 24px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--cyan-b);outline-offset:3px;border-radius:6px}
+button,select,textarea{font:inherit;color:inherit}
+
+/* ---------- side rail ---------- */
+.rail{position:fixed;left:0;top:0;bottom:0;width:224px;padding:calc(env(safe-area-inset-top,0px) + 28px) 22px 28px;border-right:1px solid var(--line);background:var(--bg);z-index:20;display:flex;flex-direction:column;gap:34px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;font-family:var(--head);font-weight:800;font-size:19px;letter-spacing:.01em}
+.brand .ring{width:26px;height:26px;border-radius:50%;border:3px solid var(--cyan-b);position:relative;flex:none}
+.brand .ring::after{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--pink)}
+.rail nav{display:flex;flex-direction:column;gap:2px;position:relative}
+.rail nav a{position:relative;text-decoration:none;font-weight:500;font-size:16px;padding:9px 12px 9px 22px;border-radius:10px;color:var(--muted)}
+.rail nav a::before{content:"";position:absolute;left:6px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:var(--line)}
+.rail nav a:hover{color:var(--ink);background:var(--soft)}
+.rail nav a.on{color:var(--ink);font-weight:700}
+.rail nav a.on::before{background:var(--pink);box-shadow:0 0 0 4px var(--glow2)}
+.rail .foot{margin-top:auto;font-size:13px;color:var(--muted);line-height:1.45}
+main{margin-left:224px}
+.wrap{max-width:980px;margin:0 auto;padding:0 32px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding:72px 0 56px;overflow:hidden;background:
+  radial-gradient(520px 360px at var(--mx,72%) var(--my,30%),var(--glow1),transparent 70%),
+  radial-gradient(640px 420px at 10% 90%,var(--glow2),transparent 70%),var(--bg)}
+.hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:linear-gradient(to bottom,#000 30%,transparent 95%);mask-image:linear-gradient(to bottom,#000 30%,transparent 95%);pointer-events:none}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.2fr .8fr;gap:44px;align-items:center}
+h1{font-family:var(--head);font-weight:800;font-size:clamp(34px,5.6vw,62px);line-height:1.04;margin:0 0 22px;letter-spacing:-.015em}
+h1 .ln{display:block;overflow:hidden}
+h1 .ln span{display:block;animation:rise .8s cubic-bezier(.2,.8,.2,1) both}
+h1 .ln:nth-child(2) span{animation-delay:.14s}
+h1 .ln:nth-child(3) span{animation-delay:.28s}
+@keyframes rise{from{transform:translateY(105%)}to{transform:none}}
+.lead{font-size:19px;color:var(--muted);max-width:50ch;margin:0 0 28px;animation:fade .8s .5s both}
+.btns{display:flex;gap:12px;flex-wrap:wrap;animation:fade .8s .65s both}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.btn{font-weight:700;font-size:16px;text-decoration:none;border:2px solid var(--line);padding:13px 22px;border-radius:12px;cursor:pointer;background:transparent;display:inline-block}
+.btn:hover{border-color:var(--cyan-b)}
+.btn.primary{border:0;color:var(--on-accent);background:linear-gradient(100deg,var(--cyan-b),#8F7BFF 62%,var(--pink));padding:15px 24px}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn[disabled]{opacity:.55;cursor:not-allowed}
+
+.screen{perspective:900px;display:flex;flex-direction:column;align-items:center;gap:10px;animation:fade 1s .35s both}
+.phone3d{width:100%;max-width:360px;aspect-ratio:5/8;position:relative;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+.phone3d:active{cursor:grabbing}
+.phone3d canvas{width:100%;height:100%;display:block;outline-offset:-3px}
+.phone3d[hidden],.flip-row[hidden]{display:none}
+.flip-row{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.flip-row small{color:var(--muted);font-size:14px}
+.flip-row .btn{padding:9px 18px;font-size:15px}
+.frame{position:relative;width:100%;max-width:260px;aspect-ratio:9/16;border-radius:30px;overflow:hidden;background:
+  radial-gradient(circle at 30% 24%,#2c3cff 0,transparent 46%),
+  radial-gradient(circle at 78% 70%,#ff3fa0 0,transparent 44%),
+  linear-gradient(160deg,#141a6e,#2a1068);
+  box-shadow:0 0 0 2px var(--cyan-b),0 24px 80px var(--glow1),0 0 60px var(--glow2);
+  transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .15s ease-out}
+.frame .third{position:absolute;inset:0;background:
+  linear-gradient(to right,transparent 33.1%,rgba(255,255,255,.28) 33.3%,transparent 33.5%,transparent 66.5%,rgba(255,255,255,.28) 66.7%,transparent 66.9%),
+  linear-gradient(to bottom,transparent 33.1%,rgba(255,255,255,.28) 33.3%,transparent 33.5%,transparent 66.5%,rgba(255,255,255,.28) 66.7%,transparent 66.9%)}
+.frame .c{position:absolute;width:28px;height:28px;border:3px solid #fff}
+.frame .c.a{top:16px;left:16px;border-right:0;border-bottom:0}
+.frame .c.b{top:16px;right:16px;border-left:0;border-bottom:0}
+.frame .c.c{bottom:16px;left:16px;border-right:0;border-top:0}
+.frame .c.d{bottom:16px;right:16px;border-left:0;border-top:0}
+.rec{position:absolute;top:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;color:#fff;font-weight:700;font-size:13px}
+.rec b{width:10px;height:10px;border-radius:50%;background:#FF4D4D;animation:blink 1.4s steps(2,jump-none) infinite}
+@keyframes blink{50%{opacity:.15}}
+.chip{position:absolute;background:rgba(7,8,38,.78);color:#fff;border:1px solid rgba(255,255,255,.35);font-weight:600;font-size:13px;padding:6px 11px;border-radius:999px;backdrop-filter:blur(4px)}
+.chip.t1{left:12%;top:28%}.chip.t2{right:8%;top:50%}.chip.t3{left:14%;bottom:15%}
+
+.timeline{position:relative;margin-top:44px;height:46px;display:flex;gap:6px;align-items:stretch;animation:fade 1s .8s both}
+.timeline i{flex:var(--w);border-radius:8px;background:var(--soft);border:1px solid var(--line)}
+.timeline i:nth-child(3n+1){background:linear-gradient(90deg,var(--glow1),transparent)}
+.timeline i:nth-child(3n){background:linear-gradient(90deg,var(--glow2),transparent)}
+.timeline .head{position:absolute;top:-8px;bottom:-8px;width:3px;border-radius:2px;background:var(--pink);box-shadow:0 0 14px var(--pink);left:0;animation:scrub 7s linear infinite}
+@keyframes scrub{from{left:0}to{left:calc(100% - 3px)}}
+
+/* ---------- sections ---------- */
+section.block{padding:84px 0;border-top:1px solid var(--line)}
+h2{font-family:var(--head);font-weight:800;font-size:clamp(26px,3.8vw,40px);line-height:1.12;margin:0 0 14px;letter-spacing:-.01em}
+.sub{color:var(--muted);max-width:60ch;margin:0 0 34px}
+h3{font-family:var(--head);font-weight:700;font-size:19px;margin:0 0 8px}
+
+/* idea lab */
+.controls{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:26px}
+.field{display:flex;flex-direction:column;gap:6px;flex:1 1 220px}
+.field label{font-weight:700;font-size:14px;color:var(--muted)}
+select,textarea{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:12px 14px;width:100%}
+select:hover,textarea:hover{border-color:var(--cyan-b)}
+textarea{resize:vertical;min-height:110px;line-height:1.5}
+.adapt{background:var(--soft);border-left:4px solid var(--cyan-b);padding:12px 16px;border-radius:4px 12px 12px 4px;margin-bottom:22px;color:var(--muted)}
+.idea{background:var(--panel);border:1px solid var(--line);border-radius:18px;margin-bottom:14px;overflow:hidden}
+.idea[open]{border-color:var(--cyan-b);box-shadow:0 12px 50px var(--glow1)}
+.idea summary{list-style:none;cursor:pointer;padding:20px 24px;display:flex;gap:16px;justify-content:space-between;align-items:flex-start}
+.idea summary::-webkit-details-marker{display:none}
+.idea summary b{font-family:var(--head);font-size:19px;font-weight:700;display:block;margin-bottom:4px}
+.idea summary span{color:var(--muted)}
+.idea summary::after{content:"+";font-family:var(--head);font-size:26px;line-height:1;color:var(--cyan);flex:none;transition:transform .2s}
+.idea[open] summary::after{transform:rotate(45deg)}
+.idea .body{padding:0 24px 24px;display:grid;gap:18px}
+.idea h4{margin:0 0 6px;font-family:var(--head);font-size:15px;color:var(--cyan)}
+.idea p{margin:0}
+.idea ol{margin:0;padding-left:22px}
+.idea li{margin-bottom:6px}
+.example{background:var(--soft);border-radius:12px;padding:14px 16px}
+
+/* studio */
+.studio{position:relative;border-radius:22px;padding:2px;background:var(--line)}
+.studio.busy{background:linear-gradient(100deg,var(--cyan-b),var(--violet),var(--pink),var(--cyan-b));background-size:300% 100%;animation:flow 2.4s linear infinite}
+@keyframes flow{to{background-position:-300% 0}}
+.studio .in{background:var(--panel);border-radius:20px;padding:28px}
+.studio .row{display:flex;gap:16px;flex-wrap:wrap;margin:16px 0 20px}
+.status{font-size:14px;color:var(--muted);margin:0 0 16px}
+.status b{color:var(--cyan)}
+.actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.msg{margin:16px 0 0;color:var(--muted)}
+.msg.err{color:var(--pink);font-weight:600}
+.scan{height:6px;border-radius:999px;margin-top:20px;background:linear-gradient(90deg,transparent,var(--cyan-b),transparent);background-size:40% 100%;background-repeat:no-repeat;animation:scan 1.2s ease-in-out infinite;display:none}
+.busy .scan{display:block}
+@keyframes scan{0%{background-position:-60% 0}100%{background-position:160% 0}}
+#result{margin-top:28px}
+.plan-title{font-family:var(--head);font-weight:800;font-size:26px;margin:0 0 6px}
+.plan-hook{margin:0 0 22px;padding:14px 18px;border-radius:12px;background:var(--soft);border-left:4px solid var(--pink)}
+.scenes{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-bottom:24px}
+.scene{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--bg2);animation:pop .45s both}
+@keyframes pop{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.scene .t{padding:8px 14px;font-weight:800;font-family:var(--head);font-size:14px;background:linear-gradient(100deg,var(--cyan-b),var(--violet));color:var(--on-accent)}
+.scene .shot{padding:14px;min-height:92px;border-bottom:1px dashed var(--line);font-size:15px}
+.scene .meta{padding:12px 14px;font-size:14px;display:grid;gap:8px}
+.scene .meta b{display:block;color:var(--cyan);font-size:13px}
+.extra{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px}
+.extra h4{margin:0 0 6px;font-family:var(--head);color:var(--cyan)}
+.extra ul{margin:0;padding-left:20px}
+.tags{display:flex;gap:8px;flex-wrap:wrap}
+.tags span{background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:3px 12px;font-size:14px}
+.refine{border-top:1px solid var(--line);padding-top:22px}
+.quick{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px}
+.quick button{background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer;font-size:14px}
+.quick button:hover{border-color:var(--cyan-b)}
+.history{margin:0 0 12px;padding-left:20px;color:var(--muted);font-size:15px}
+details.alt{margin-top:22px;background:var(--soft);border-radius:14px;padding:14px 18px}
+details.alt summary{cursor:pointer;font-weight:700}
+details.alt p{color:var(--muted);margin:10px 0}
+details.alt textarea{min-height:150px;font-size:14px}
+
+/* film */
+.spec{border-top:1px solid var(--line)}
+.spec div{display:grid;grid-template-columns:200px 1fr;gap:24px;padding:26px 0;border-bottom:1px solid var(--line)}
+.spec h3{font-size:24px;margin:0;color:var(--cyan)}
+.spec p{margin:0 0 8px}
+.spec ul{margin:0;padding-left:20px;color:var(--muted)}
+
+/* editing + AI video */
+.filters{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.tools{display:grid;gap:12px}
+.tool{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px 22px;display:flex;gap:18px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.tool .info{flex:1 1 360px}
+.tool h3{margin:0 0 6px}
+.tool p{margin:6px 0 0;color:var(--muted)}
+.badges{display:flex;gap:6px;flex-wrap:wrap}
+.badge{font-size:13px;font-weight:600;padding:2px 11px;border-radius:999px;border:1px solid var(--line);background:var(--soft)}
+.badge.price{border-color:var(--cyan-b);color:var(--cyan)}
+.lnk{font-weight:700;color:var(--cyan);text-underline-offset:4px}
+.tool .lnk{white-space:nowrap}
+.none{color:var(--muted);padding:16px 0}
+.tp h3{margin:30px 0 10px}
+.tp h3:first-child{margin-top:0}
+.tp > p{max-width:68ch;color:var(--muted);margin:0 0 14px}
+.tp ul.plain{margin:0 0 6px;padding-left:20px;color:var(--muted);max-width:68ch}
+.tp ul.plain li{margin-bottom:6px}
+ol.how{list-style:none;counter-reset:s;padding:0;margin:0 0 8px;display:grid;gap:10px;max-width:72ch}
+ol.how li{counter-increment:s;position:relative;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 18px 14px 60px}
+ol.how li::before{content:counter(s);position:absolute;left:16px;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-family:var(--head);font-weight:800;font-size:15px;color:var(--on-accent);background:linear-gradient(100deg,var(--cyan-b),var(--pink))}
+ol.how b{display:block}
+ol.how span{color:var(--muted)}
+.promptbox{margin-top:14px;max-width:72ch;background:var(--soft);border-left:4px solid var(--pink);border-radius:4px 14px 14px 4px;padding:16px 18px}
+.promptbox p{margin:0 0 12px}
+.promptbox .actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.promptbox .btn{padding:9px 18px;font-size:15px}
+.warn{max-width:72ch;margin:18px 0 0;background:var(--soft);border-left:4px solid var(--cyan-b);border-radius:4px 14px 14px 4px;padding:14px 18px;color:var(--muted)}
+
+/* platforms */
+.tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.tabs button{font-weight:700;border:2px solid var(--line);background:transparent;padding:10px 20px;border-radius:999px;cursor:pointer}
+.tabs button:hover{border-color:var(--cyan-b)}
+.tabs button[aria-selected="true"]{background:linear-gradient(100deg,var(--cyan-b),var(--violet));border-color:transparent;color:var(--on-accent)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:28px;display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.panel h3{margin-top:0;font-size:17px;color:var(--cyan)}
+.panel ul{margin:0;padding-left:20px;color:var(--muted)}
+.panel li{margin-bottom:6px}
+.panel .wide{grid-column:1/-1;background:var(--soft);padding:16px 18px;border-radius:12px}
+.panel .wide p{margin:0}
+.note{margin-top:28px;background:var(--soft);border-left:4px solid var(--pink);border-radius:4px 16px 16px 4px;padding:20px 24px;max-width:72ch}
+.note h3{margin-bottom:8px}
+.note p{margin:0 0 10px}.note p:last-child{margin:0}
+
+/* plan */
+.progress{height:12px;background:var(--soft);border-radius:999px;overflow:hidden;margin:6px 0 8px;border:1px solid var(--line)}
+.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan-b),var(--pink));transition:width .3s}
+.plan-count{color:var(--muted);font-size:15px;margin:0 0 26px}
+.stage{margin-bottom:24px}
+.task{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:8px;cursor:pointer}
+.task:hover{border-color:var(--cyan-b)}
+.task input{width:22px;height:22px;margin-top:2px;accent-color:var(--pink);flex:none}
+.task input:checked + span{color:var(--muted);text-decoration:line-through}
+
+/* sources */
+.src{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.src a{display:block;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;text-decoration:none}
+.src a:hover{border-color:var(--cyan-b);box-shadow:0 10px 40px var(--glow1)}
+.src strong{display:block;font-family:var(--head);font-size:17px;margin-bottom:4px}
+.src span{color:var(--muted);font-size:15px}
+footer{padding:36px 0 56px;border-top:1px solid var(--line);color:var(--muted);font-size:15px}
+
+/* ---------- mobile ---------- */
+@media (max-width:960px){
+  .rail{position:sticky;top:0;bottom:auto;width:auto;flex-direction:row;align-items:center;gap:14px;padding:calc(env(safe-area-inset-top,0px) + 8px) 14px 8px;border-right:0;border-bottom:1px solid var(--line)}
+  .rail .foot{display:none}
+  .rail nav{flex-direction:row;overflow-x:auto;gap:0;scrollbar-width:none}
+  .rail nav a{white-space:nowrap;padding:8px 12px}
+  .rail nav a::before{display:none}
+  .rail nav a.on{background:var(--soft)}
+  .brand span.nm{display:none}
+  main{margin-left:0}
+  .wrap{padding:0 20px}
+  html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px)}
+}
+@media (max-width:760px){
+  .hero{padding:44px 0 40px}
+  .hero .wrap{grid-template-columns:1fr}
+  .frame{max-width:210px}
+  .panel{grid-template-columns:1fr}
+  .extra{grid-template-columns:1fr}
+  .spec div{grid-template-columns:1fr;gap:8px}
+  .src{grid-template-columns:1fr}
+  section.block{padding:60px 0}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .timeline .head{left:50%}
+}
+</style>
+</head>
+<body>
+
+<aside class="rail">
+  <a class="brand" href="#top" aria-label="Первый кадр, на главную"><i class="ring" aria-hidden="true"></i><span class="nm">Первый кадр</span></a>
+  <nav aria-label="Разделы сайта">
+    <a href="#lab" data-s="lab">Идеи</a>
+    <a href="#studio" data-s="studio">ИИ-студия</a>
+    <a href="#film" data-s="film">Съёмка</a>
+    <a href="#edit" data-s="edit">Монтаж</a>
+    <a href="#platforms" data-s="platforms">Платформы</a>
+    <a href="#plan" data-s="plan">План</a>
+    <a href="#sources" data-s="sources">Источники</a>
+  </nav>
+  <div class="foot">Справочные материалы. Результат зависит от контента и аудитории.</div>
+</aside>
+
+<main id="top">
+  <header class="hero" id="hero">
+    <div class="wrap">
+      <div>
+        <h1><span class="ln"><span>Первый ролик</span></span><span class="ln"><span>собирается</span></span><span class="ln"><span>за один вечер</span></span></h1>
+        <p class="lead">Выбери тему и получи идею с готовым примером. Нейросеть превратит её в сценарий и раскадровку, а ты поправишь под себя.</p>
+        <div class="btns">
+          <a class="btn primary" href="#lab">Взять идею</a>
+          <a class="btn" href="#studio">Раскадровка с ИИ</a>
+        </div>
+      </div>
+      <div class="screen">
+        <div class="frame" id="frame" role="img" aria-label="Вертикальный кадр с сеткой третей и подсказками для съёмки">
+          <div class="third"></div>
+          <span class="c a"></span><span class="c b"></span><span class="c c"></span><span class="c d"></span>
+          <div class="rec"><b></b>REC</div>
+          <span class="chip t1">Хук в первые 10 секунд</span>
+          <span class="chip t2">Свет от окна</span>
+          <span class="chip t3">Чистый звук</span>
+        </div>
+        <div class="phone3d" id="phone3d" hidden>
+          <canvas id="phone-canvas" role="img" aria-label="3D-модель смартфона в стиле iPhone 17 Pro Max. На экране подсказки: хук в первые 10 секунд, свет от окна, чистый звук"></canvas>
+        </div>
+        <div class="flip-row" id="flip-row" hidden>
+          <button class="btn" id="flip" type="button">Показать камеры</button>
+          <small>Потяни телефон, чтобы повернуть</small>
+        </div>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="timeline" aria-hidden="true">
+        <i style="--w:3"></i><i style="--w:1.4"></i><i style="--w:2.2"></i><i style="--w:1"></i><i style="--w:3.4"></i><i style="--w:1.6"></i><i style="--w:2.4"></i>
+        <span class="head"></span>
+      </div>
+    </div>
+  </header>
+
+  <section class="block" id="lab">
+    <div class="wrap">
+      <h2>Лаборатория идей</h2>
+      <p class="sub">Выбери тему и формат. Каждая идея идёт с первой фразой, шагами съёмки и конкретным примером.</p>
+      <div class="controls">
+        <div class="field"><label for="niche">Тема канала</label><select id="niche"></select></div>
+        <div class="field"><label for="format">Формат</label>
+          <select id="format">
+            <option value="short">Короткое видео</option>
+            <option value="long">Длинное видео</option>
+            <option value="post">Пост или карусель</option>
+          </select>
+        </div>
+      </div>
+      <div class="adapt" id="adapt"></div>
+      <div id="ideas"></div>
+    </div>
+  </section>
+
+  <section class="block" id="studio">
+    <div class="wrap">
+      <h2>ИИ-студия: сценарий и раскадровка</h2>
+      <p class="sub">Выбери идею в лаборатории или напиши свою. Нейросеть составит план по кадрам, а потом подстроится под твои правки.</p>
+      <div class="studio" id="studio-box">
+        <div class="in">
+          <p class="status" id="ai-status">Проверяю, доступен ли ИИ-помощник…</p>
+          <div class="field"><label for="idea-text">Идея ролика</label>
+            <textarea id="idea-text" placeholder="Например: сравнить Dota 2 и CS для новичка в коротком видео"></textarea>
+          </div>
+          <div class="row">
+            <div class="field"><label for="s-format">Формат</label><select id="s-format"></select></div>
+            <div class="field"><label for="s-len">Длительность</label><select id="s-len"></select></div>
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="go" type="button" disabled>Составить план</button>
+            <button class="btn" id="stop" type="button" hidden>Остановить</button>
+          </div>
+          <div class="scan" aria-hidden="true"></div>
+          <p class="msg" id="msg" aria-live="polite"></p>
+          <div id="result" aria-live="polite"></div>
+          <details class="alt">
+            <summary>Промпт для другой нейросети</summary>
+            <p>Скопируй этот текст и вставь его в любую нейросеть, например DeepSeek. Она вернёт план в том же виде.</p>
+            <textarea id="prompt-out" readonly></textarea>
+            <div class="actions" style="margin-top:10px"><button class="btn" id="copy-prompt" type="button">Скопировать промпт</button><span class="msg" id="copy-msg" style="margin:0"></span></div>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="film">
+    <div class="wrap">
+      <h2>Как снимать, чтобы приятно смотреть</h2>
+      <p class="sub">Зрители прощают простую картинку, но уходят из-за плохого звука и тёмного кадра. Начни с этого.</p>
+      <div class="spec">
+        <div><h3>Свет</h3><section><p>Встань лицом к окну, а не спиной. Мягкий дневной свет делает лицо читаемым без дорогого оборудования.</p><ul><li>Вечером поставь настольную лампу сбоку от камеры</li><li>Не смешивай лампу и окно: оттенки получатся грязными</li></ul></section></div>
+        <div><h3>Звук</h3><section><p>Плохой звук раздражает сильнее плохой картинки. Говори ближе к микрофону и выбирай тихое помещение.</p><ul><li>Недорогая петличка заметно улучшает запись</li><li>Перед съёмкой послушай 10 секунд тестовой записи</li></ul></section></div>
+        <div><h3>Кадр</h3><section><p>Держи телефон на уровне глаз и протри объектив. Включи сетку в камере и поставь глаза на верхнюю линию.</p><ul><li>Для TikTok, Reels и Shorts снимай вертикально 9:16</li><li>Для длинных видео на YouTube снимай горизонтально 16:9</li></ul></section></div>
+        <div><h3>Начало и монтаж</h3><section><p>Покажи результат или главный вопрос сразу, без долгого приветствия. Режь паузы и повторы.</p><ul><li>Добавляй субтитры: многие смотрят без звука</li><li>Ритм важнее эффектов</li></ul></section></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="edit">
+    <div class="wrap">
+      <h2>Монтаж и ИИ-видео</h2>
+      <p class="sub">Чем монтировать, как это делать по шагам и где ИИ реально помогает. Программы и условия меняются, поэтому актуальные цены и функции смотри на сайтах сервисов.</p>
+      <div class="tabs" role="tablist" aria-label="Разделы про монтаж">
+        <button role="tab" id="et-tools" aria-selected="true" aria-controls="tp-tools" data-t="tools">Программы</button>
+        <button role="tab" id="et-how" aria-selected="false" aria-controls="tp-how" data-t="how" tabindex="-1">Как монтировать</button>
+        <button role="tab" id="et-ai" aria-selected="false" aria-controls="tp-ai" data-t="ai" tabindex="-1">ИИ-видео</button>
+        <button role="tab" id="et-rules" aria-selected="false" aria-controls="tp-rules" data-t="rules" tabindex="-1">Правила и обучение</button>
+      </div>
+
+      <div class="tp" id="tp-tools" role="tabpanel" aria-labelledby="et-tools">
+        <p>Выбери цену и платформу, и список сузится. Не знаешь, с чего начать: на телефоне попробуй CapCut, на компьютере DaVinci Resolve, на Mac iMovie, на Windows Clipchamp.</p>
+        <div class="filters">
+          <div class="field"><label for="f-price">Цена</label>
+            <select id="f-price">
+              <option value="all">Любая</option>
+              <option value="free">Бесплатно</option>
+              <option value="freemium">Есть бесплатный тариф</option>
+              <option value="paid">Платно</option>
+            </select>
+          </div>
+          <div class="field"><label for="f-plat">Платформа</label>
+            <select id="f-plat">
+              <option value="all">Любая</option>
+              <option value="phone">Телефон</option>
+              <option value="windows">Windows</option>
+              <option value="mac">Mac</option>
+              <option value="linux">Linux</option>
+              <option value="web">В браузере</option>
+            </select>
+          </div>
+        </div>
+        <div class="tools" id="tools-list" aria-live="polite"></div>
+        <p class="warn">Доступность программ и их функций зависит от страны. Часть сервисов в некоторых регионах не работает или работает с ограничениями.</p>
+      </div>
+
+      <div class="tp" id="tp-how" role="tabpanel" aria-labelledby="et-how" hidden>
+        <p>Порядок работы, который подходит для большинства роликов. Не пропускай звук и субтитры: именно они чаще всего отличают любительский ролик от аккуратного.</p>
+        <ol class="how">
+          <li><b>Отбери лучшие дубли</b><span>Просмотри весь материал и оставь только удачные фрагменты. Лишнее удаляй сразу.</span></li>
+          <li><b>Собери черновую склейку</b><span>Расставь фрагменты по порядку и вырежи паузы, оговорки и повторы. Пока без эффектов.</span></li>
+          <li><b>Проверь начало</b><span>Ответ на вопрос «зачем смотреть дальше» должен звучать в первые секунды. Переставь самый сильный момент в начало.</span></li>
+          <li><b>Выровняй звук</b><span>Голос должен быть громче музыки. Убери шум, подбери тихую фоновую музыку и проверь ролик в наушниках.</span></li>
+          <li><b>Добавь субтитры</b><span>Сделай их автоматически и проверь вручную: ошибки в именах и терминах встречаются часто. Текст должен читаться на маленьком экране.</span></li>
+          <li><b>Поправь цвет и добавь обложку</b><span>Слегка выровняй яркость и контраст. Для YouTube подготовь обложку, для Reels и TikTok выбери понятный кадр.</span></li>
+          <li><b>Экспортируй и проверь на телефоне</b><span>Для вертикальных роликов нужен формат 9:16 (например, 1080×1920), для горизонтальных 16:9 (например, 1920×1080). Посмотри готовый файл целиком на телефоне, прежде чем публиковать.</span></li>
+        </ol>
+        <h3>Откуда брать знания</h3>
+        <ul class="plain">
+          <li>Официальные уроки и документация программы, в которой ты монтируешь</li>
+          <li>Видеоуроки по запросу «название программы для начинающих»</li>
+          <li>Разбор чужих роликов: смотри любимый ролик по кадрам и замечай, как часто меняются планы, где появляется текст и звук</li>
+          <li>Практика на своём материале: один ролик в неделю учит быстрее, чем десять уроков подряд</li>
+        </ul>
+      </div>
+
+      <div class="tp" id="tp-ai" role="tabpanel" aria-labelledby="et-ai" hidden>
+        <h3>ИИ внутри монтажа</h3>
+        <p>Такие функции экономят часы и есть во многих программах. Часть из них доступна только в платных версиях.</p>
+        <ul class="plain">
+          <li>Автоматические субтитры и перевод субтитров</li>
+          <li>Удаление пауз и слов-паразитов</li>
+          <li>Шумоподавление и улучшение голоса</li>
+          <li>Вырезание фона и объектов</li>
+          <li>Монтаж через текст: правишь расшифровку, и видео перерезается само</li>
+        </ul>
+        <h3>Короткие вставки, созданные ИИ</h3>
+        <p>Такие сервисы создают клип по описанию или оживляют готовую картинку. Для блогера лучше всего подходят вставки на 3–8 секунд: переходы, фоны, мини-анимации. Целый ролик целиком из ИИ обычно выглядит хуже и вызывает меньше доверия.</p>
+        <div class="tools" id="ai-list"></div>
+        <p class="warn">Сервис Sora от OpenAI в 2026 году закрыли, поэтому в старых подборках его лучше не искать. Обзоры нейросетей быстро устаревают, а условия бесплатных тарифов часто меняются.</p>
+        <h3>Как сделать вставку</h3>
+        <ol class="how">
+          <li><b>Реши, зачем нужна вставка</b><span>Например, красивый переход, фон для заголовка или короткая сцена, которую сложно снять.</span></li>
+          <li><b>Подготовь стартовый кадр</b><span>Если сервис умеет оживлять картинку, результат обычно предсказуемее, чем при генерации только по тексту.</span></li>
+          <li><b>Опиши сцену</b><span>Назови объект, действие, движение камеры, свет и стиль. Не пиши длинных абзацев: чем конкретнее и короче, тем лучше.</span></li>
+          <li><b>Сделай несколько вариантов</b><span>Выбери лучший и отбрось остальные. Первый результат редко бывает удачным.</span></li>
+          <li><b>Встрой вставку в монтаж</b><span>Держи её недолго, добавь свой звук и не показывай крупные планы лиц, где ИИ ошибается чаще всего.</span></li>
+        </ol>
+        <div class="promptbox">
+          <p><b>Пример описания:</b> Камера медленно приближается к игровой мыши на столе, мягкий синий свет, в воздухе лёгкие частицы пыли, кинематографичный стиль, 5 секунд, без текста в кадре.</p>
+          <div class="actions"><button class="btn" id="copy-ex" type="button">Скопировать пример</button><span class="msg" id="copy-ex-msg" style="margin:0"></span></div>
+        </div>
+      </div>
+
+      <div class="tp" id="tp-rules" role="tabpanel" aria-labelledby="et-rules" hidden>
+        <h3>Метки для ИИ-контента</h3>
+        <p>Если в ролике есть реалистичные сцены, люди или голоса, созданные или заметно изменённые ИИ, платформы просят об этом сообщить.</p>
+        <ul class="plain">
+          <li>YouTube: при загрузке есть пункт про изменённый или синтетический контент. Платформа может добавить метку и сама</li>
+          <li>TikTok: метка «AI-generated» для реалистичных ИИ-сцен, людей и голосов</li>
+          <li>Instagram: отметка «AI info»</li>
+        </ul>
+        <p class="warn">Правила у платформ разные и меняются. Сверяйся с их центрами помощи и не выдавай ИИ-сцену за реальную съёмку.</p>
+        <h3>Авторские права</h3>
+        <ul class="plain">
+          <li>Музыку бери из библиотек платформ или с понятной лицензией: YouTube Audio Library, Commercial Music Library в TikTok</li>
+          <li>Чужие лица и голоса без разрешения использовать нельзя, в том числе в ИИ-вставках</li>
+          <li>Перед публикацией читай условия сервиса: можно ли использовать результат в коммерческих целях. На бесплатных тарифах часто остаётся водяной знак</li>
+          <li>Фрагменты игр, фильмов и музыки используй по правилам платформы и правообладателей, лучше в виде своих записей</li>
+        </ul>
+        <h3>Где учиться</h3>
+        <ul class="plain">
+          <li><a class="lnk" href="https://www.blackmagicdesign.com/products/davinciresolve/training" target="_blank" rel="noopener noreferrer">Обучающие материалы DaVinci Resolve</a>: официальные курсы бесплатной программы</li>
+          <li><a class="lnk" href="https://www.youtube.com/creators/" target="_blank" rel="noopener noreferrer">YouTube для авторов</a>: уроки по запуску и развитию канала</li>
+          <li><a class="lnk" href="https://www.tiktok.com/creators/creator-portal/" target="_blank" rel="noopener noreferrer">TikTok для авторов</a>: советы и правила сообщества</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="platforms">
+    <div class="wrap">
+      <h2>Что работает на каждой платформе</h2>
+      <p class="sub">Платформы не раскрывают алгоритмы полностью. Здесь то, что они сами говорят в центрах для авторов, плюс практические выводы.</p>
+      <div class="tabs" role="tablist" aria-label="Платформы">
+        <button role="tab" id="tab-tt" aria-selected="true" aria-controls="panel" data-p="tt">TikTok</button>
+        <button role="tab" id="tab-yt" aria-selected="false" aria-controls="panel" data-p="yt" tabindex="-1">YouTube</button>
+        <button role="tab" id="tab-ig" aria-selected="false" aria-controls="panel" data-p="ig" tabindex="-1">Instagram</button>
+      </div>
+      <div class="panel" id="panel" role="tabpanel" aria-labelledby="tab-tt"></div>
+      <div class="note">
+        <h3>Что такое «прогрев» аккаунта</h3>
+        <p>Официальных правил «прогрева» у платформ нет. Обычно так называют первые две недели: заполненный профиль, регулярные публикации и знакомство с платформой.</p>
+        <p>Разумный старт: оформи профиль, посмотри, что нравится твоей аудитории, публикуй по расписанию и отвечай на комментарии. Накрутки, покупка подписчиков и массовые подписки нарушают правила платформ и могут привести к ограничениям.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="plan">
+    <div class="wrap">
+      <h2>План на первые 14 дней</h2>
+      <p class="sub">Отмечай выполненное. Прогресс сохраняется в этом браузере.</p>
+      <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Прогресс плана"><span id="bar"></span></div>
+      <p class="plan-count" id="plan-count"></p>
+      <div id="plan-list"></div>
+      <button class="btn" id="reset" type="button">Сбросить отметки</button>
+    </div>
+  </section>
+
+  <section class="block" id="sources">
+    <div class="wrap">
+      <h2>Официальные источники</h2>
+      <p class="sub">Сверяйся с ними: платформы регулярно меняют правила и рекомендации.</p>
+      <div class="src">
+        <a href="https://www.tiktok.com/creators/creator-portal/" target="_blank" rel="noopener noreferrer"><strong>TikTok для авторов</strong><span>Советы и правила сообщества</span></a>
+        <a href="https://www.youtube.com/creators/" target="_blank" rel="noopener noreferrer"><strong>YouTube для авторов</strong><span>Уроки по запуску и развитию канала</span></a>
+        <a href="https://creators.instagram.com/" target="_blank" rel="noopener noreferrer"><strong>Instagram для авторов</strong><span>Рекомендации по форматам и росту</span></a>
+      </div>
+    </div>
+  </section>
+
+  <footer><div class="wrap">Вторая версия сайта. Материалы носят справочный характер.</div></footer>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ================= IDEAS ================= */
+  var IDEAS = {
+    "Игры":[
+      {t:"Dota 2 против CS: какая игра злее к новичку",hook:"В CS ты проиграешь за три секунды, а в Dota за тридцать минут. Что хуже?",why:"Игроки любят спорить о любимых играх, а комментарии с аргументами помогают ролику расти.",steps:["Выбери три критерия: первые 10 минут, цена ошибки, сколько нужно выучить до первой победы","Запиши по 5–8 секунд собственного геймплея из каждой игры на каждый критерий","Собери ролик в разделённом экране: слева Dota 2, справа CS, внизу счёт по критериям","В конце вынеси вердикт и спроси: с какой игры начинал ты?"],ex:"Критерий «первые 10 минут»: в Dota 2 тебе объясняют, что делать, а в CS ты уже наблюдаешь за игрой после смерти. Счёт 1:1. Критерий «цена ошибки»: в CS одна ошибка стоит раунда, в Dota её можно отыграть. Счёт 2:1. Вердикт: для новичка спокойнее Dota 2, но больше терпения нужно именно ей."},
+      {t:"10 часов в новой игре: что я понял",hook:"Я провёл 10 часов в этой игре. Вот три вещи, которые мне никто не сказал.",why:"Новичкам нужны честные советы без рекламы, и такие ролики сохраняют и пересылают.",steps:["Во время игры записывай, где запутался и что обрадовало","Выбери три главных вывода","Покажи каждый момент коротким клипом с подписью","Закончи советом: что бы ты сделал иначе в первый час"],ex:"Структура: 1) обучение объясняет не всё, 2) главная ошибка в первый час, 3) настройка, которая меняет ощущение от игры."},
+      {t:"Челлендж: пройти уровень без привычного приёма",hook:"Смогу ли я пройти этот уровень, не используя главное оружие?",why:"Зритель ждёт исхода, поэтому досматривает до конца.",steps:["Выбери уровень и придумай ограничение","Покажи правила на экране в первые секунды","Сними 2–3 попытки, самую смешную неудачу оставь","Покажи итог и спроси, какое ограничение придумать дальше"],ex:"Ограничение: только стартовый пистолет. Попытка 1: провал за 20 секунд. Попытка 2: дошёл до середины. Попытка 3: прошёл, потратив все нервы."},
+      {t:"Настройки, после которых играть удобнее",hook:"Выключи эту настройку, и игра станет понятнее.",why:"Практичный совет, который хочется сохранить.",steps:["Найди три настройки, которые поменяли твой комфорт","Покажи на экране вид до и после","Объясни, зачем каждая нужна","Предложи подписчикам поделиться своими настройками"],ex:"Чувствительность мыши, яркость в тёмных зонах, включение подсказок на экране."}
+    ],
+    "Еда":[
+      {t:"Ресторанная паста против домашней",hook:"Разница в цене в пять раз. А во вкусе?",why:"Сравнение цены и вкуса понятно сразу, и каждый может повторить.",steps:["Выбери блюдо, которое есть в меню кафе","Приготовь домашнюю версию и посчитай стоимость ингредиентов","Устрой слепую дегустацию с другом","Покажи счёт цены и вердикт"],ex:"Карбонара: дома порция стоит 90 рублей, в кафе 650. Друг угадал ресторанную версию с третьей попытки."},
+      {t:"Ужин из трёх ингредиентов",hook:"Три продукта, три ужина, десять минут.",why:"Ограничение создаёт интригу, а рецепты легко повторить.",steps:["Выбери три доступных продукта","Придумай три блюда","Покажи каждое блюдо за 8–10 секунд","Собери итоговый кадр с тремя тарелками"],ex:"Макароны, сыр и помидоры: паста с томатным соусом, запеканка и холодный салат."},
+      {t:"Три ошибки новичков на кухне",hook:"Эти три ошибки портят блюдо в первые пять минут.",why:"Короткие советы с примерами легко смотреть и сохранять.",steps:["Выбери три частые ошибки","Покажи каждую на реальном примере","Покажи, как исправить","Закончи вопросом о самой частой ошибке подписчиков"],ex:"Холодная сковорода, пригоревший чеснок, пересоленный суп в самом начале."}
+    ],
+    "Путешествия":[
+      {t:"Выходной в своём городе на фиксированный бюджет",hook:"У меня есть 1000 рублей и один день. Что успею?",why:"Идею можно повторить в любом городе, поэтому зрители делятся ею.",steps:["Задай бюджет и покажи его на экране","Запланируй завтрак, транспорт и одно развлечение","Веди счётчик трат в кадре","Подведи итог: что стоило своих денег"],ex:"Завтрак 250, билет на транспорт 100, смотровая площадка бесплатно, кофе на рынке 150. Осталось 500."},
+      {t:"Что я взял в поездку и чем не пользовался",hook:"Из чемодана на 20 вещей я воспользовался восемью.",why:"Практичный разбор с понятным результатом.",steps:["Сфотографируй вещи до поездки","После возвращения раздели их на «нужно» и «лишнее»","Покажи вещи на двух стопках","Дай совет, как собираться в следующий раз"],ex:"Нужно: зарядка, обувь, лёгкая куртка. Лишнее: второй фен, три книги, запас футболок."},
+      {t:"Места, куда туристы не заходят",hook:"Всего в десяти минутах от центра есть место, где нет очередей.",why:"Люди любят находить необычные точки в знакомых местах.",steps:["Выбери район и найди 3–5 мест","Проверь, что туда безопасно и можно зайти","Сними короткий маршрут между ними","Укажи, как добраться"],ex:"Двор с муралами, местный рынок, смотровая на холме."}
+    ],
+    "Образование":[
+      {t:"Одна тема для трёх возрастов",hook:"Объясню интернет пятилетнему, подростку и эксперту.",why:"Зритель сравнивает уровни и проверяет, что понял сам.",steps:["Выбери сложную тему","Придумай объяснение для 5 лет, 15 лет и эксперта","Снимай три версии в разных кадрах","Спроси, какой уровень был самым сложным"],ex:"Для пятилетнего: интернет похож на почту, которая носит письма между домами. Для подростка: сеть из серверов и протоколов. Для эксперта: пакетная передача и маршрутизация."},
+      {t:"Как я выучил тему за неделю",hook:"Семь дней, одна тема и вот что получилось.",why:"Дневник результата помогает зрителю повторить способ.",steps:["Выбери тему и цель","Записывай прогресс каждый день одной фразой","Покажи метод и результаты","Закончи тестом для зрителя"],ex:"Тема: основы английских времён. День 1: схема. День 3: 30 фраз. День 7: пересказ без шпаргалки."},
+      {t:"Три ошибки при подготовке к экзамену",hook:"Эти ошибки отнимают больше всего времени.",why:"Короткий список с понятным решением.",steps:["Выбери три ошибки","Покажи каждую на примере","Предложи замену","Дай мини-чек-лист на экране"],ex:"Только перечитывать конспект, учить всё подряд, готовиться ночью."}
+    ],
+    "Красота и стиль":[
+      {t:"Одна вещь, пять образов",hook:"Одна белая рубашка и пять разных образов.",why:"Идея экономит деньги, а образы легко повторить.",steps:["Выбери базовую вещь","Придумай пять сценариев","Меняй образ без склеек, одним кадром","Покажи список вещей в конце"],ex:"Офис, прогулка, вечер, спорт-кэжуал, пляж."},
+      {t:"Сравнение двух средств за неделю",hook:"Два средства, семь дней, честный итог.",why:"Честные сравнения вызывают доверие.",steps:["Выбери два похожих средства","Сравни состав и цену","Опиши ощущения каждый день","Сделай вывод без рекламы"],ex:"Сравни два увлажняющих крема: текстура, впитывание, цена."},
+      {t:"Капсульный гардероб из десяти вещей",hook:"Десять вещей, которых хватит на месяц.",why:"Зрителям нравятся простые системы.",steps:["Выбери палитру","Составь список из десяти вещей","Покажи пять сочетаний","Расскажи, что бы заменил"],ex:"Палитра: белый, серый, синий. Вещи: рубашка, джинсы, жакет и так далее."}
+    ],
+    "Спорт и здоровье":[
+      {t:"Проверяю популярный совет на себе семь дней",hook:"Все говорят про зарядку по утрам. Проверим?",why:"Личный эксперимент убедительнее пересказа.",steps:["Выбери безопасный и понятный совет","Записывай самочувствие каждый день","Покажи итог без громких обещаний","Напомни: при проблемах со здоровьем сначала к врачу"],ex:"Совет: 10 минут зарядки утром. Дни 1–3: тяжело. Дни 4–7: проще вставать."},
+      {t:"Тренировка дома на 10 минут",hook:"Десять минут, никакого инвентаря.",why:"Простой формат, который легко повторить.",steps:["Выбери 4–5 упражнений","Сними каждое по 20 секунд","Добавь таймер на экране","Покажи, как адаптировать для новичков"],ex:"Приседания, планка, отжимания от стены, выпады."},
+      {t:"Ошибки новичков в зале",hook:"Эта ошибка встречается чаще всего.",why:"Практический совет, который хочется сохранить.",steps:["Выбери три ошибки","Покажи, как выглядит неправильно и правильно","Дай простое объяснение","Предложи проконсультироваться с тренером"],ex:"Слишком большой вес, спешка, пропуск разминки."}
+    ],
+    "Технологии":[
+      {t:"Телефон пятилетней давности против нового",hook:"Чувствуется ли разница, если не смотреть на характеристики?",why:"Сравнение на практике ценнее таблиц.",steps:["Выбери два телефона","Сними одно и то же видео на оба","Запусти одно приложение и сравни скорость","Сделай вывод: стоит ли обновляться"],ex:"Камера в темноте, запуск приложений, время работы за вечер."},
+      {t:"Настройки телефона, которые стоит включить",hook:"Эти три настройки занимают минуту.",why:"Полезно и легко показать на экране.",steps:["Выбери три настройки","Запиши экран с шагами","Объясни пользу","Спроси, какие настройки включил бы ты"],ex:"Автоблокировка, резервная копия, экономия трафика."},
+      {t:"Защита аккаунтов за десять минут",hook:"Сделай это сегодня, и взломать будет сложнее.",why:"Практичный чек-лист, который сохраняют.",steps:["Покажи двухфакторную защиту","Покажи менеджер паролей","Объясни, как проверить вход с других устройств","Покажи итоговый чек-лист"],ex:"Шаги: пароль, второй фактор, восстановление, проверка устройств."}
+    ],
+    "Лайфстайл":[
+      {t:"Утро по минутам: что осталось через месяц",hook:"Я попробовал пять утренних привычек. Остались две.",why:"Зрители сверяют с собой и обсуждают.",steps:["Выбери пять привычек","Отмечай каждый день","Покажи, что прижилось","Объясни, почему"],ex:"Вода, зарядка, план дня, прогулка, чтение. Прижились: вода и план дня."},
+      {t:"Неделя без бесконечной ленты",hook:"Семь дней без ленты. Что изменилось?",why:"Личный эксперимент с понятным результатом.",steps:["Определи правила эксперимента","Записывай наблюдения","Сними итоговый вывод","Дай совет подписчикам"],ex:"Правило: лента только 20 минут вечером. Итог: больше времени на чтение."},
+      {t:"Рабочее место за 30 минут",hook:"Одно изменение за полчаса — и работать легче.",why:"Понятный результат до и после.",steps:["Сними стол до","Выбери три изменения","Покажи процесс в ускорении","Сними стол после"],ex:"Убрать лишнее, поставить лампу сбоку, спрятать провода."}
+    ]
+  };
+  var ADAPT = {
+    short:"Короткое видео: 20–40 секунд, вертикально 9:16. Покажи результат или вопрос в первую секунду, добавь субтитры и один призыв в конце.",
+    long:"Длинное видео: 8–12 минут, горизонтально 16:9. Структура: обещание, три части, итог. Продумай обложку и заголовок до съёмки.",
+    post:"Карусель: 6–8 слайдов. Первый слайд с вопросом или результатом, средние по одной мысли, последний с выводом и вопросом к подписчикам."
+  };
+  var nicheSel = document.getElementById("niche");
+  Object.keys(IDEAS).forEach(function(n){ var o=document.createElement("option"); o.value=n; o.textContent=n; nicheSel.appendChild(o); });
+  var fmtSel = document.getElementById("format");
+  var ideasBox = document.getElementById("ideas");
+  function el(tag, cls, text){ var e=document.createElement(tag); if(cls) e.className=cls; if(text!==undefined) e.textContent=text; return e; }
+  function renderIdeas(){
+    var list = IDEAS[nicheSel.value];
+    document.getElementById("adapt").textContent = ADAPT[fmtSel.value];
+    ideasBox.innerHTML = "";
+    list.forEach(function(it, i){
+      var d = el("details","idea"); if(i===0) d.open = true;
+      var s = el("summary"); var w = el("div");
+      w.appendChild(el("b","",it.t)); w.appendChild(el("span","",it.hook));
+      s.appendChild(w); d.appendChild(s);
+      var b = el("div","body");
+      var a = el("div"); a.appendChild(el("h4","","Почему зайдёт")); a.appendChild(el("p","",it.why)); b.appendChild(a);
+      var st = el("div"); st.appendChild(el("h4","","Как снять")); var ol = el("ol");
+      it.steps.forEach(function(x){ ol.appendChild(el("li","",x)); }); st.appendChild(ol); b.appendChild(st);
+      var ex = el("div","example"); ex.appendChild(el("h4","","Пример")); ex.appendChild(el("p","",it.ex)); b.appendChild(ex);
+      var btn = el("button","btn primary","Составить план с ИИ"); btn.type="button";
+      btn.addEventListener("click", function(){ useIdea(it); });
+      var wrap = el("div"); wrap.appendChild(btn); b.appendChild(wrap);
+      d.appendChild(b); ideasBox.appendChild(d);
+    });
+  }
+  nicheSel.addEventListener("change", renderIdeas);
+  fmtSel.addEventListener("change", renderIdeas);
+  nicheSel.value = "Игры";
+
+  /* ================= STUDIO ================= */
+  var FORMATS = {
+    short:{label:"Короткое вертикальное видео 9:16", lens:["20–30 секунд","30–60 секунд","60–90 секунд"], unit:"секунды"},
+    long:{label:"Длинное горизонтальное видео 16:9", lens:["5–8 минут","8–12 минут","12–15 минут"], unit:"минуты"},
+    post:{label:"Карусель из слайдов", lens:["6 слайдов","8 слайдов","10 слайдов"], unit:"номер слайда"}
+  };
+  var sFmt = document.getElementById("s-format"), sLen = document.getElementById("s-len");
+  Object.keys(FORMATS).forEach(function(k){ var o=document.createElement("option"); o.value=k; o.textContent=FORMATS[k].label; sFmt.appendChild(o); });
+  function fillLens(){
+    sLen.innerHTML="";
+    FORMATS[sFmt.value].lens.forEach(function(l, i){ var o=document.createElement("option"); o.value=l; o.textContent=l; if(i===1) o.selected=true; sLen.appendChild(o); });
+    updatePrompt();
+  }
+  sFmt.addEventListener("change", fillLens);
+  sLen.addEventListener("change", updatePrompt);
+  var ideaText = document.getElementById("idea-text");
+  ideaText.addEventListener("input", updatePrompt);
+
+  function useIdea(it){
+    ideaText.value = it.t + ". Первая фраза: " + it.hook + " Пример: " + it.ex;
+    sFmt.value = fmtSel.value; fillLens(); updatePrompt();
+    document.getElementById("studio").scrollIntoView({behavior: reduce ? "auto" : "smooth"});
+    setTimeout(function(){ ideaText.focus({preventScroll:true}); }, 400);
+  }
+
+  var RULES = "Ты помощник для начинающих блогеров. Отвечай на русском языке. Верни ТОЛЬКО JSON без пояснений и без markdown в таком виде: " +
+    "{\"title\":\"название ролика\",\"hook\":\"первая фраза или первый слайд\",\"scenes\":[{\"time\":\"тайминг или номер слайда\",\"shot\":\"что в кадре и какой ракурс\",\"voice\":\"что говорит автор\",\"onscreen\":\"текст или графика на экране\"}],\"caption\":\"подпись к публикации\",\"hashtags\":[\"тег\"],\"tips\":[\"совет по съёмке или монтажу\"]}. " +
+    "Сцен должно быть от 5 до 9. Пиши понятно новичку. Для игр, фильмов и музыки советуй использовать собственные записи и соблюдать правила платформы и правообладателей. Не обещай гарантированных просмотров и не советуй накрутки.";
+  function task(){
+    var f = FORMATS[sFmt.value];
+    return "Идея: " + (ideaText.value.trim() || "(не указана)") + "\nФормат: " + f.label + "\nДлительность: " + sLen.value + "\nВ поле time указывай: " + f.unit + ".";
+  }
+  function updatePrompt(){ document.getElementById("prompt-out").value = RULES + "\n\n" + task(); }
+
+  var SAMPLE = null, ctl = null, plan = null, edits = [];
+  var go = document.getElementById("go"), stopBtn = document.getElementById("stop");
+  var msg = document.getElementById("msg"), box = document.getElementById("studio-box"), result = document.getElementById("result");
+  var statusEl = document.getElementById("ai-status");
+
+  function setStatus(ok){
+    if(ok){ statusEl.innerHTML = "ИИ-помощник <b>готов</b>. При первом запросе браузер спросит разрешение."; go.disabled = false; }
+    else { statusEl.textContent = "ИИ-помощник доступен, когда сайт открыт в claude.ai. Ниже есть промпт для любой другой нейросети."; go.disabled = true; }
+  }
+  try{
+    if(window.claude && window.claude.use){
+      window.claude.use("sample").then(function(s){ SAMPLE = s; setStatus(!!s); }).catch(function(){ setStatus(false); });
+    } else { setStatus(false); }
+  }catch(e){ setStatus(false); }
+
+  function errCopy(e){
+    var c = e && e.code;
+    if(c==="not_granted"||c==="sampling_disabled"||c==="not_declared"||c==="capability_disabled"||c==="capability_removed") return "ИИ-помощник недоступен: разрешение не выдано или функция отключена. Воспользуйся промптом для другой нейросети.";
+    if(c==="rate_limited") return "Слишком много запросов или достигнут лимит. Подожди и нажми кнопку ещё раз.";
+    if(c==="session_expired") return "Нужно заново войти в аккаунт.";
+    if(c==="invalid_json") return "Не удалось разобрать ответ. Нажми кнопку ещё раз.";
+    if(c==="refused") return "ИИ не стал выполнять этот запрос. Измени формулировку идеи.";
+    if(c==="prompt_too_large") return "Идея слишком длинная. Сократи текст.";
+    return "Не получилось составить план. Попробуй ещё раз.";
+  }
+  function busy(on){
+    box.classList.toggle("busy", on);
+    go.disabled = on || !SAMPLE;
+    stopBtn.hidden = !on;
+    var r = document.getElementById("refine-btn"); if(r) r.disabled = on;
+  }
+  function call(prompt){
+    ctl = new AbortController();
+    msg.className = "msg"; msg.textContent = "ИИ собирает кадры, это может занять до минуты…";
+    busy(true);
+    return SAMPLE.json(prompt, {signal: ctl.signal, cache:false, modelTier:"default"}).then(function(data){
+      busy(false); msg.textContent = "";
+      if(!data || !Array.isArray(data.scenes) || !data.scenes.length){ var er={code:"invalid_json"}; throw er; }
+      return data;
+    }).catch(function(e){
+      busy(false);
+      if(e && e.code==="cancelled"){ msg.textContent = "Остановлено."; return null; }
+      msg.className = "msg err"; msg.textContent = errCopy(e); return null;
+    });
+  }
+  go.addEventListener("click", function(){
+    if(!SAMPLE) return;
+    if(!ideaText.value.trim()){ msg.className="msg err"; msg.textContent="Напиши идею или выбери её в лаборатории."; return; }
+    edits = [];
+    call(RULES + "\n\n" + task()).then(function(d){ if(d){ plan = d; renderPlan(); } });
+  });
+  stopBtn.addEventListener("click", function(){ if(ctl) ctl.abort(); });
+
+  function txt(v){ return (v===undefined||v===null) ? "" : String(v); }
+  function renderPlan(){
+    result.innerHTML = "";
+    result.appendChild(el("h3","plan-title",txt(plan.title)));
+    if(plan.hook){ var h = el("p","plan-hook"); var b = el("b","","Первая фраза: "); h.appendChild(b); h.appendChild(document.createTextNode(txt(plan.hook))); result.appendChild(h); }
+    var sc = el("div","scenes");
+    plan.scenes.forEach(function(s, i){
+      var c = el("div","scene"); c.style.animationDelay = (i*70)+"ms";
+      c.appendChild(el("div","t",txt(s.time)));
+      c.appendChild(el("div","shot",txt(s.shot)));
+      var m = el("div","meta");
+      if(s.voice){ var v=el("div"); v.appendChild(el("b","","Говорит автор")); v.appendChild(document.createTextNode(txt(s.voice))); m.appendChild(v); }
+      if(s.onscreen){ var o=el("div"); o.appendChild(el("b","","На экране")); o.appendChild(document.createTextNode(txt(s.onscreen))); m.appendChild(o); }
+      c.appendChild(m); sc.appendChild(c);
+    });
+    result.appendChild(sc);
+    var ex = el("div","extra");
+    if(plan.caption || (plan.hashtags && plan.hashtags.length)){
+      var a = el("div"); a.appendChild(el("h4","","Подпись и теги"));
+      if(plan.caption) a.appendChild(el("p","",txt(plan.caption)));
+      if(plan.hashtags && plan.hashtags.length){ var tg = el("div","tags"); plan.hashtags.forEach(function(t){ tg.appendChild(el("span","",txt(t))); }); a.appendChild(tg); }
+      ex.appendChild(a);
+    }
+    if(plan.tips && plan.tips.length){
+      var t2 = el("div"); t2.appendChild(el("h4","","Советы по съёмке")); var ul = el("ul");
+      plan.tips.forEach(function(t){ ul.appendChild(el("li","",txt(t))); }); t2.appendChild(ul); ex.appendChild(t2);
+    }
+    result.appendChild(ex);
+
+    var rf = el("div","refine");
+    rf.appendChild(el("h3","","Поправить план"));
+    if(edits.length){ var hist = el("ol","history"); edits.forEach(function(x){ hist.appendChild(el("li","",x)); }); rf.appendChild(hist); }
+    var q = el("div","quick");
+    ["Сделай динамичнее и короче","Добавь юмор","Объясни проще для новичка","Убери сложный монтаж","Добавь больше примеров"].forEach(function(t){
+      var bt = el("button","",t); bt.type="button"; bt.addEventListener("click", function(){ ta.value = t; ta.focus(); }); q.appendChild(bt);
+    });
+    rf.appendChild(q);
+    var ta = el("textarea"); ta.id="edit-text"; ta.placeholder="Напиши, что изменить. Например: сделай ролик для зрителей, которые уже играют год";
+    ta.setAttribute("aria-label","Что изменить в плане"); rf.appendChild(ta);
+    var ac = el("div","actions"); ac.style.marginTop = "12px";
+    var rb = el("button","btn primary","Применить правку"); rb.type="button"; rb.id="refine-btn";
+    rb.addEventListener("click", function(){
+      var e = ta.value.trim(); if(!e){ msg.className="msg err"; msg.textContent="Напиши, что изменить."; return; }
+      var prev = JSON.stringify(plan);
+      call(RULES + "\n\n" + task() + "\n\nТекущий план (JSON): " + prev + "\n\nПравка автора: " + e + "\nВерни полный обновлённый план в том же JSON-формате, сохрани то, что автор не просил менять.").then(function(d){
+        if(d){ plan = d; edits.push(e); renderPlan(); }
+      });
+    });
+    var cb = el("button","btn","Скопировать план"); cb.type="button";
+    var cm = el("span","msg"); cm.style.margin="0";
+    cb.addEventListener("click", function(){ copyText(planText(), cm); });
+    ac.appendChild(rb); ac.appendChild(cb); ac.appendChild(cm); rf.appendChild(ac);
+    result.appendChild(rf);
+  }
+  function planText(){
+    var l = [txt(plan.title), "Первая фраза: " + txt(plan.hook), ""];
+    plan.scenes.forEach(function(s, i){ l.push((i+1) + ". " + txt(s.time) + "\nКадр: " + txt(s.shot) + "\nГоворит: " + txt(s.voice) + "\nНа экране: " + txt(s.onscreen) + "\n"); });
+    if(plan.caption) l.push("Подпись: " + txt(plan.caption));
+    if(plan.hashtags) l.push("Теги: " + plan.hashtags.map(txt).join(" "));
+    if(plan.tips) l.push("\nСоветы:\n- " + plan.tips.map(txt).join("\n- "));
+    return l.join("\n");
+  }
+  function copyText(text, out){
+    function fallback(){
+      try{
+        var t = document.createElement("textarea"); t.value = text; t.style.position="fixed"; t.style.opacity="0";
+        document.body.appendChild(t); t.select(); var ok = document.execCommand("copy"); document.body.removeChild(t);
+        out.textContent = ok ? "Скопировано." : "Не получилось. Выдели текст и скопируй вручную.";
+      }catch(e){ out.textContent = "Не получилось. Выдели текст и скопируй вручную."; }
+    }
+    try{
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(function(){ out.textContent="Скопировано."; }, fallback);
+      } else { fallback(); }
+    }catch(e){ fallback(); }
+  }
+  document.getElementById("copy-prompt").addEventListener("click", function(){
+    updatePrompt();
+    copyText(document.getElementById("prompt-out").value, document.getElementById("copy-msg"));
+  });
+
+  /* ================= PLATFORMS ================= */
+  var PLAT = {
+    tt:{format:["Вертикальное видео 9:16","Короткие ролики с сильным началом","Тренды и звуки, если они подходят теме"],start:["Заполни профиль: понятное имя и описание в одну строку","Публикуй регулярно, лучше часто и коротко","Отвечай на комментарии, в том числе видео-ответами"],what:["Мини-истории с неожиданным результатом","Короткие советы и разборы","Сериальные рубрики, к которым хочется вернуться"],avoid:["Реклама без пометки","Нарушение правил сообщества и чужих авторских прав","Накрутки: они вредят аккаунту"],tip:"TikTok сам пишет, что рекомендации строятся на действиях зрителей и данных о видео. Поэтому важно удержать внимание с первых секунд."},
+    yt:{format:["Длинные видео 16:9","Shorts для охвата и знакомства с каналом","Плейлисты для связанных тем"],start:["Продумай заголовок и обложку до съёмки","Оформи описание канала и баннер","Пиши в описании ролика ключевые слова и таймкоды"],what:["Обучающие ролики с ответом на конкретный вопрос","Обзоры и сравнения","Серии, которые зритель смотрит подряд"],avoid:["Заголовок, который обещает то, чего нет в видео","Слишком длинное вступление","Чужие видео и музыка без прав"],tip:"YouTube рекомендует видео, которые зрители смотрят и оценивают положительно. Честная обложка и заголовок сохраняют доверие."},
+    ig:{format:["Reels в вертикальном формате","Карусели для полезных материалов","Сторис для общения с подписчиками"],start:["Оформи профиль: фото, имя, ссылка и строка о себе","Чередуй Reels, карусели и сторис","Держи единый визуальный стиль"],what:["Reels с коротким полезным советом","Карусели «как сделать» и чек-листы","Закулисье и рабочий процесс в сторис"],avoid:["Мелкий текст на видео","Чужие ролики с водяными знаками других платформ","Накрутки и массовые подписки"],tip:"Instagram даёт разные форматы для разных целей: Reels помогают найти новую аудиторию, карусели и сторис удерживают её."}
+  };
+  var panel = document.getElementById("panel");
+  function ulHtml(items){ return "<ul>" + items.map(function(i){ return "<li>" + i + "</li>"; }).join("") + "</ul>"; }
+  function renderPlat(k){
+    var p = PLAT[k];
+    panel.innerHTML = "<div><h3>Форматы</h3>"+ulHtml(p.format)+"</div><div><h3>С чего начать</h3>"+ulHtml(p.start)+"</div><div><h3>Что снимать</h3>"+ulHtml(p.what)+"</div><div><h3>Чего избегать</h3>"+ulHtml(p.avoid)+"</div><div class='wide'><p>"+p.tip+"</p></div>";
+    panel.setAttribute("aria-labelledby","tab-"+k);
+  }
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tabs[aria-label="Платформы"] button'));
+  function selTab(btn){ tabs.forEach(function(b){ var on=b===btn; b.setAttribute("aria-selected", on); b.tabIndex = on?0:-1; }); renderPlat(btn.dataset.p); }
+  tabs.forEach(function(b,i){
+    b.addEventListener("click", function(){ selTab(b); });
+    b.addEventListener("keydown", function(e){
+      var n=null; if(e.key==="ArrowRight") n=tabs[(i+1)%tabs.length]; if(e.key==="ArrowLeft") n=tabs[(i-1+tabs.length)%tabs.length];
+      if(n){ e.preventDefault(); n.focus(); selTab(n); }
+    });
+  });
+  renderPlat("tt");
+
+  /* ================= 14-DAY PLAN ================= */
+  var PLAN = [
+    {title:"Дни 1–3: подготовка",tasks:["Выбери тему и аудиторию в одном предложении","Придумай название и оформи профиль","Посмотри 10 успешных аккаунтов в своей теме и выпиши, что нравится","Составь список из 10 идей для роликов"]},
+    {title:"Дни 4–7: первые публикации",tasks:["Сними и опубликуй первый ролик: он не должен быть идеальным","Проверь звук и свет на готовом видео","Опубликуй ещё два ролика по списку идей","Ответь на все комментарии"]},
+    {title:"Дни 8–14: ритм и выводы",tasks:["Опубликуй не менее трёх роликов за неделю","Посмотри статистику: где зрители уходят","Повтори формат, который сработал лучше остальных","Запиши расписание публикаций на следующий месяц"]}
+  ];
+  var KEY = "blogger-plan-v1", state = {};
+  try{ state = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; }catch(e){ state = {}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var list = document.getElementById("plan-list"), total = 0;
+  PLAN.forEach(function(stage, si){
+    var d = el("div","stage"); d.appendChild(el("h3","",stage.title));
+    stage.tasks.forEach(function(t, ti){
+      total++; var id = si+"-"+ti;
+      var lab = el("label","task"); var cb = document.createElement("input"); cb.type="checkbox"; cb.checked = !!state[id];
+      cb.addEventListener("change", function(){ if(cb.checked) state[id]=1; else delete state[id]; save(); update(); });
+      lab.appendChild(cb); lab.appendChild(el("span","",t)); d.appendChild(lab);
+    });
+    list.appendChild(d);
+  });
+  function update(){
+    var done = Object.keys(state).length, pct = Math.round(done/total*100);
+    document.getElementById("bar").style.width = pct+"%";
+    document.querySelector(".progress").setAttribute("aria-valuenow", pct);
+    document.getElementById("plan-count").textContent = "Выполнено " + done + " из " + total;
+  }
+  document.getElementById("reset").addEventListener("click", function(){
+    state = {}; save(); Array.prototype.forEach.call(list.querySelectorAll("input"), function(c){ c.checked=false; }); update();
+  });
+  update();
+
+  /* ================= HERO POINTER + SCROLLSPY ================= */
+  var hero = document.getElementById("hero"), frame = document.getElementById("frame");
+  if(!reduce){
+    hero.addEventListener("pointermove", function(e){
+      var r = hero.getBoundingClientRect();
+      hero.style.setProperty("--mx", ((e.clientX-r.left)/r.width*100)+"%");
+      hero.style.setProperty("--my", ((e.clientY-r.top)/r.height*100)+"%");
+      var fr = frame.getBoundingClientRect();
+      var dx = (e.clientX-(fr.left+fr.width/2))/(window.innerWidth/2), dy = (e.clientY-(fr.top+fr.height/2))/(window.innerHeight/2);
+      frame.style.setProperty("--ry", (Math.max(-1,Math.min(1,dx))*12)+"deg");
+      frame.style.setProperty("--rx", (Math.max(-1,Math.min(1,dy))*-10)+"deg");
+    });
+    hero.addEventListener("pointerleave", function(){ frame.style.setProperty("--rx","0deg"); frame.style.setProperty("--ry","0deg"); });
+  }
+  var links = {}; Array.prototype.forEach.call(document.querySelectorAll(".rail nav a"), function(a){ links[a.dataset.s] = a; });
+  if("IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(en){ if(en.isIntersecting){ Object.keys(links).forEach(function(k){ links[k].classList.toggle("on", k===en.target.id); }); } });
+    }, {rootMargin:"-35% 0px -60% 0px"});
+    Object.keys(links).forEach(function(k){ var s = document.getElementById(k); if(s) io.observe(s); });
+  }
+
+  /* init */
+  fillLens();
+  renderIdeas();
+  updatePrompt();
+})();
+</script>
+
+<script>
+/* ================= 3D PHONE (three.js) ================= */
+(function(){
+  var holder = document.getElementById("phone3d");
+  var canvas = document.getElementById("phone-canvas");
+  var flipRow = document.getElementById("flip-row");
+  var flipBtn = document.getElementById("flip");
+  var oldFrame = document.getElementById("frame");
+  var hero = document.getElementById("hero");
+  if(!holder || !canvas || typeof THREE === "undefined") return;   // fallback: flat CSS frame stays
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  var renderer, scene, camera, phone, tex, cv, cx;
+  var W = 7.8, H = 16.34, D = 0.875, R = 1.2;
+
+  function rr(w,h,r){
+    var s = new THREE.Shape(), x=-w/2, y=-h/2;
+    s.moveTo(x+r,y); s.lineTo(x+w-r,y); s.absarc(x+w-r,y+r,r,-Math.PI/2,0,false);
+    s.lineTo(x+w,y+h-r); s.absarc(x+w-r,y+h-r,r,0,Math.PI/2,false);
+    s.lineTo(x+r,y+h); s.absarc(x+r,y+h-r,r,Math.PI/2,Math.PI,false);
+    s.lineTo(x,y+r); s.absarc(x+r,y+r,r,Math.PI,Math.PI*1.5,false);
+    return s;
+  }
+  function fixUV(geo,w,h){
+    var p = geo.attributes.position, uv = geo.attributes.uv;
+    for(var i=0;i<p.count;i++){ uv.setXY(i,(p.getX(i)+w/2)/w,(p.getY(i)+h/2)/h); }
+    uv.needsUpdate = true;
+  }
+
+  /* ---------- live screen texture ---------- */
+  cv = document.createElement("canvas"); cv.width = 540; cv.height = 1182; cx = cv.getContext("2d");
+  function rrect(x,y,w,h,r){
+    cx.beginPath(); cx.moveTo(x+r,y); cx.arcTo(x+w,y,x+w,y+h,r); cx.arcTo(x+w,y+h,x,y+h,r);
+    cx.arcTo(x,y+h,x,y,r); cx.arcTo(x,y,x+w,y,r); cx.closePath();
+  }
+  function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+  function chip(text,x,y,right,a){
+    if(a<=0) return;
+    cx.save(); cx.globalAlpha = a; cx.font = "700 30px Manrope, 'Segoe UI', Arial, sans-serif";
+    var tw = cx.measureText(text).width, bw = tw+44, bh = 58, bx = right ? x-bw : x, by = y + (1-a)*16;
+    rrect(bx,by,bw,bh,29); cx.fillStyle = "rgba(7,8,38,.82)"; cx.fill();
+    cx.lineWidth = 2; cx.strokeStyle = "rgba(255,255,255,.45)"; cx.stroke();
+    cx.fillStyle = "#fff"; cx.textBaseline = "middle"; cx.textAlign = "left"; cx.fillText(text,bx+22,by+bh/2+1);
+    cx.restore();
+  }
+  function draw(t){
+    var w = 540, h = 1182, T = t % 11;
+    var g = cx.createLinearGradient(0,0,w*0.6,h); g.addColorStop(0,"#141a6e"); g.addColorStop(1,"#2a1068");
+    cx.fillStyle = g; cx.fillRect(0,0,w,h);
+    var b1 = cx.createRadialGradient(w*.3,h*.24,0,w*.3,h*.24,w*.8); b1.addColorStop(0,"rgba(44,60,255,.85)"); b1.addColorStop(1,"rgba(44,60,255,0)");
+    cx.fillStyle = b1; cx.fillRect(0,0,w,h);
+    var b2 = cx.createRadialGradient(w*.78,h*.7,0,w*.78,h*.7,w*.75); b2.addColorStop(0,"rgba(255,63,160,.8)"); b2.addColorStop(1,"rgba(255,63,160,0)");
+    cx.fillStyle = b2; cx.fillRect(0,0,w,h);
+    // rule of thirds
+    cx.strokeStyle = "rgba(255,255,255,.26)"; cx.lineWidth = 2; cx.beginPath();
+    cx.moveTo(w/3,0); cx.lineTo(w/3,h); cx.moveTo(2*w/3,0); cx.lineTo(2*w/3,h);
+    cx.moveTo(0,h/3); cx.lineTo(w,h/3); cx.moveTo(0,2*h/3); cx.lineTo(w,2*h/3); cx.stroke();
+    // viewfinder corners
+    cx.strokeStyle = "#fff"; cx.lineWidth = 6; cx.lineCap = "round"; cx.lineJoin = "round";
+    var L = 46, x0 = 34, x1 = w-34, y0 = 150, y1 = h-210;
+    cx.beginPath();
+    cx.moveTo(x0,y0+L); cx.lineTo(x0,y0); cx.lineTo(x0+L,y0);
+    cx.moveTo(x1-L,y0); cx.lineTo(x1,y0); cx.lineTo(x1,y0+L);
+    cx.moveTo(x0,y1-L); cx.lineTo(x0,y1); cx.lineTo(x0+L,y1);
+    cx.moveTo(x1-L,y1); cx.lineTo(x1,y1); cx.lineTo(x1,y1-L); cx.stroke();
+    // dynamic island
+    rrect(w/2-82,28,164,48,24); cx.fillStyle = "#02030c"; cx.fill();
+    // REC + timer
+    var blink = (t % 1.4) < 0.7;
+    cx.fillStyle = blink ? "#ff4d4d" : "rgba(255,77,77,.25)"; cx.beginPath(); cx.arc(w/2-62,116,9,0,Math.PI*2); cx.fill();
+    var s = Math.floor(T); cx.fillStyle = "#fff"; cx.font = "700 28px Manrope, 'Segoe UI', Arial, sans-serif";
+    cx.textAlign = "left"; cx.textBaseline = "middle"; cx.fillText("REC  0:" + (s<10?"0":"") + s, w/2-42, 117);
+    // chips appear one by one
+    var fade = clamp((11-T)/0.8,0,1);
+    chip("Хук в первые 10 секунд", 62, h*.28, false, clamp((T-0.6)/0.45,0,1)*fade);
+    chip("Свет от окна", w*.92, h*.50, true, clamp((T-1.9)/0.45,0,1)*fade);
+    chip("Чистый звук", 74, h*.78, false, clamp((T-3.2)/0.45,0,1)*fade);
+    // hook timeline: first 10 seconds
+    cx.textAlign = "center"; cx.fillStyle = "rgba(255,255,255,.9)"; cx.font = "600 24px Manrope, 'Segoe UI', Arial, sans-serif";
+    cx.fillText("Хук: первые 10 секунд", w/2, 1002);
+    rrect(70,1030,400,10,5); cx.fillStyle = "rgba(255,255,255,.25)"; cx.fill();
+    var pw = 400*clamp(T/10,0,1), pg = cx.createLinearGradient(70,0,470,0); pg.addColorStop(0,"#35e8f2"); pg.addColorStop(1,"#ff4fa8");
+    if(pw>1){ rrect(70,1030,pw,10,5); cx.fillStyle = pg; cx.fill(); }
+    cx.fillStyle = "#fff"; cx.beginPath(); cx.arc(70+pw,1035,11,0,Math.PI*2); cx.fill();
+    cx.font = "500 20px Manrope, 'Segoe UI', Arial, sans-serif"; cx.fillStyle = "rgba(255,255,255,.7)";
+    cx.textAlign = "left"; cx.fillText("0:00",70,1072); cx.textAlign = "right"; cx.fillText("0:10",470,1072);
+    // shutter
+    cx.lineWidth = 5; cx.strokeStyle = "#fff"; cx.beginPath(); cx.arc(w/2,1124,32,0,Math.PI*2); cx.stroke();
+    cx.fillStyle = "#ff4d4d"; cx.beginPath(); cx.arc(w/2,1124,blink?23:21,0,Math.PI*2); cx.fill();
+  }
+
+  /* ---------- scene ---------- */
+  try{
+    renderer = new THREE.WebGLRenderer({canvas:canvas, antialias:true, alpha:true});
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+    renderer.setClearColor(0x000000,0);
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(30,5/8,1,120);
+    camera.position.set(0,0,34);
+
+    scene.add(new THREE.AmbientLight(0xffffff,.6));
+    var key = new THREE.DirectionalLight(0xffffff,.95); key.position.set(6,10,14); scene.add(key);
+    var cyan = new THREE.PointLight(0x35e8f2,1.4,90); cyan.position.set(-14,6,10); scene.add(cyan);
+    var pink = new THREE.PointLight(0xff4fa8,1.2,90); pink.position.set(14,-8,8); scene.add(pink);
+
+    phone = new THREE.Group(); scene.add(phone);
+
+    var bodyMat = new THREE.MeshStandardMaterial({color:0x3a4f82, metalness:.55, roughness:.4});
+    var edgeMat = new THREE.MeshStandardMaterial({color:0x5d74a6, metalness:.6, roughness:.35});
+    var bev = 0.09;
+    var bodyGeo = new THREE.ExtrudeGeometry(rr(W-2*bev,H-2*bev,R-bev),{depth:D-2*bev,bevelEnabled:true,bevelThickness:bev,bevelSize:bev,bevelSegments:5,curveSegments:32});
+    bodyGeo.translate(0,0,-(D-2*bev)/2);
+    phone.add(new THREE.Mesh(bodyGeo,bodyMat));
+
+    // front glass: bezel + live screen
+    var bezel = new THREE.Mesh(new THREE.ShapeGeometry(rr(W-0.28,H-0.28,R-0.14),32), new THREE.MeshStandardMaterial({color:0x05060f, metalness:.2, roughness:.15}));
+    bezel.position.z = D/2 + 0.006; phone.add(bezel);
+    var sw = W-0.62, sh = H-0.62;
+    var screenGeo = new THREE.ShapeGeometry(rr(sw,sh,R-0.31),32); fixUV(screenGeo,sw,sh);
+    tex = new THREE.CanvasTexture(cv); tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+    var screen = new THREE.Mesh(screenGeo,new THREE.MeshBasicMaterial({map:tex}));
+    screen.position.z = D/2 + 0.012; phone.add(screen);
+
+    // side buttons
+    function sideBtn(x,y,hh){ var m = new THREE.Mesh(new THREE.BoxGeometry(0.12,hh,0.34),edgeMat); m.position.set(x,y,0); phone.add(m); }
+    sideBtn(W/2+0.02,3.0,2.6); sideBtn(-W/2-0.02,4.3,0.9); sideBtn(-W/2-0.02,2.6,1.5); sideBtn(-W/2-0.02,0.6,1.5);
+
+    // back camera plateau
+    var pw = W-0.9, ph = 5.6;
+    var plGeo = new THREE.ExtrudeGeometry(rr(pw-0.1,ph-0.1,1.0),{depth:0.14,bevelEnabled:true,bevelThickness:0.05,bevelSize:0.05,bevelSegments:3,curveSegments:24});
+    plGeo.rotateY(Math.PI);
+    var plateau = new THREE.Mesh(plGeo,new THREE.MeshStandardMaterial({color:0x4a5f93, metalness:.5, roughness:.35}));
+    var py = H/2 - 0.35 - ph/2;
+    plateau.position.set(0,py,-D/2); phone.add(plateau);
+    var zTop = -D/2 - 0.24;
+    var ringMat = new THREE.MeshStandardMaterial({color:0x9db2e0, metalness:.85, roughness:.25});
+    var glassMat = new THREE.MeshStandardMaterial({color:0x07081f, metalness:.9, roughness:.08, emissive:0x0a1450});
+    function lens(x,y){
+      var ring = new THREE.Mesh(new THREE.CylinderGeometry(0.8,0.84,0.18,44),ringMat); ring.rotation.x = Math.PI/2; ring.position.set(x,py+y,zTop-0.09); phone.add(ring);
+      var glass = new THREE.Mesh(new THREE.CylinderGeometry(0.6,0.6,0.2,44),glassMat); glass.rotation.x = Math.PI/2; glass.position.set(x,py+y,zTop-0.12); phone.add(glass);
+      var core = new THREE.Mesh(new THREE.CylinderGeometry(0.28,0.28,0.22,32),new THREE.MeshStandardMaterial({color:0x2a3f9f, metalness:.8, roughness:.1, emissive:0x101a66}));
+      core.rotation.x = Math.PI/2; core.position.set(x,py+y,zTop-0.14); phone.add(core);
+    }
+    lens(1.75,0.95); lens(1.75,-1.05); lens(-0.15,-0.05);
+    function dot(x,y,r,color,em){
+      var d = new THREE.Mesh(new THREE.CylinderGeometry(r,r,0.1,24),new THREE.MeshStandardMaterial({color:color,emissive:em,roughness:.4,metalness:.2}));
+      d.rotation.x = Math.PI/2; d.position.set(x,py+y,zTop-0.05); phone.add(d);
+    }
+    dot(-1.85,1.1,0.3,0xfff1c2,0x6a5a20); dot(-1.85,0.05,0.16,0x0b0d26,0x000000); dot(-1.85,-0.8,0.22,0x0b0d26,0x05061a);
+  }catch(err){
+    return;   // keep the flat fallback
+  }
+
+  /* ---------- pose, input, loop ---------- */
+  var st = {flip:0, flipTarget:0, ptrYaw:0, ptrPitch:0, tYaw:0, tPitch:0, drag:0, dragging:false};
+  function pose(t){
+    var idle = reduce ? -0.32 : Math.sin(t*0.6)*0.42;
+    st.flip += (st.flipTarget-st.flip)*0.08;
+    st.ptrYaw += (st.tYaw-st.ptrYaw)*0.06; st.ptrPitch += (st.tPitch-st.ptrPitch)*0.06;
+    if(!st.dragging) st.drag *= 0.94;
+    phone.rotation.y = idle + st.ptrYaw + st.drag + st.flip;
+    phone.rotation.x = st.ptrPitch + (reduce ? 0 : Math.sin(t*0.8)*0.03);
+    phone.position.y = reduce ? 0 : Math.sin(t*1.1)*0.18;
+  }
+  function renderOnce(){
+    draw(6); tex.needsUpdate = true;
+    st.flip = st.flipTarget; st.ptrYaw = 0; st.ptrPitch = 0; pose(0);
+    renderer.render(scene,camera);
+  }
+  var running = false, raf = 0, t0 = performance.now(), lastTex = 0;
+  function tick(now){
+    if(!running) return;
+    raf = requestAnimationFrame(tick);
+    var t = (now-t0)/1000;
+    if(now-lastTex > 66){ draw(t); tex.needsUpdate = true; lastTex = now; }
+    pose(t); renderer.render(scene,camera);
+  }
+  function start(){ if(running || reduce) return; running = true; raf = requestAnimationFrame(tick); }
+  function stop(){ running = false; cancelAnimationFrame(raf); }
+
+  function resize(){
+    var w = holder.clientWidth, h = holder.clientHeight; if(!w || !h) return;
+    renderer.setSize(w,h,false); camera.aspect = w/h;
+    var tf = Math.tan(camera.fov*Math.PI/360);
+    camera.position.z = Math.max((H*1.12/2)/tf, (W*1.5/2)/(tf*camera.aspect));
+    camera.updateProjectionMatrix();
+    if(reduce) renderOnce();
+  }
+
+  // show the 3D model, hide the flat fallback
+  holder.hidden = false; flipRow.hidden = false; oldFrame.style.display = "none";
+  resize();
+  if("ResizeObserver" in window){ new ResizeObserver(resize).observe(holder); } else { window.addEventListener("resize",resize); }
+
+  if(reduce){
+    renderOnce();
+    if(document.fonts && document.fonts.ready){ document.fonts.ready.then(renderOnce); }
+  } else {
+    if("IntersectionObserver" in window){
+      new IntersectionObserver(function(es){ es[0].isIntersecting ? start() : stop(); }).observe(holder);
+    } else { start(); }
+    document.addEventListener("visibilitychange",function(){ if(document.hidden) stop(); else start(); });
+    hero.addEventListener("pointermove",function(e){
+      st.tYaw = clamp((e.clientX/window.innerWidth-0.5)*2,-1,1)*0.22;
+      st.tPitch = clamp((e.clientY/window.innerHeight-0.5)*2,-1,1)*0.12;
+    });
+    hero.addEventListener("pointerleave",function(){ st.tYaw = 0; st.tPitch = 0; });
+  }
+
+  var lastX = 0;
+  holder.addEventListener("pointerdown",function(e){
+    st.dragging = true; lastX = e.clientX;
+    try{ holder.setPointerCapture(e.pointerId); }catch(_){}
+  });
+  holder.addEventListener("pointermove",function(e){
+    if(!st.dragging) return;
+    st.drag += (e.clientX-lastX)*0.012; lastX = e.clientX;
+    if(reduce){ pose(0); renderer.render(scene,camera); }
+  });
+  function endDrag(){ st.dragging = false; if(reduce){ st.drag = 0; pose(0); renderer.render(scene,camera); } }
+  holder.addEventListener("pointerup",endDrag);
+  holder.addEventListener("pointercancel",endDrag);
+
+  flipBtn.addEventListener("click",function(){
+    var toBack = st.flipTarget === 0;
+    st.flipTarget = toBack ? Math.PI : 0;
+    flipBtn.textContent = toBack ? "Показать экран" : "Показать камеры";
+    if(reduce){ st.flip = st.flipTarget; pose(0); renderer.render(scene,camera); }
+  });
+})();
+</script>
+
+<script>
+/* ================= EDITING + AI VIDEO SECTION ================= */
+(function(){
+  var TOOLS = [
+    {n:"CapCut",price:"freemium",pl:["phone","windows","mac","web"],lv:"Для новичка",d:"Самый простой старт: шаблоны, автосубтитры, готовые эффекты. Часть ИИ-функций и экспорта может быть в платной подписке.",u:"https://www.capcut.com/"},
+    {n:"DaVinci Resolve",price:"free",pl:["windows","mac","linux"],lv:"Расти до профи",d:"Профессиональный монтаж, цвет и звук в одной программе. Бесплатной версии хватает для большинства роликов, есть платная Studio. Нужен мощный компьютер и время на обучение.",u:"https://www.blackmagicdesign.com/products/davinciresolve"},
+    {n:"Clipchamp",price:"freemium",pl:["windows","web"],lv:"Для новичка",d:"Простой редактор, который идёт вместе с Windows. Часть функций платная.",u:"https://clipchamp.com/"},
+    {n:"iMovie",price:"free",pl:["mac","phone"],lv:"Для новичка",d:"Бесплатный редактор от Apple для первых роликов. Работает только на устройствах Apple.",u:"https://www.apple.com/imovie/"},
+    {n:"Canva",price:"freemium",pl:["web","phone"],lv:"Для новичка",d:"Шаблоны, субтитры и простой монтаж. Удобно, если делаешь и видео, и обложки с каруселями в одном месте.",u:"https://www.canva.com/"},
+    {n:"Descript",price:"freemium",pl:["windows","mac"],lv:"Для говорящих видео",d:"Монтаж через текст: правишь расшифровку, и видео перерезается само. Бесплатный тариф ограничен.",u:"https://www.descript.com/"},
+    {n:"Kdenlive",price:"free",pl:["windows","mac","linux"],lv:"Средний уровень",d:"Бесплатный редактор с открытым кодом и множеством возможностей. Интерфейс сложнее, чем у мобильных приложений.",u:"https://kdenlive.org/"},
+    {n:"Shotcut",price:"free",pl:["windows","mac","linux"],lv:"Средний уровень",d:"Бесплатный редактор с открытым кодом и набором фильтров.",u:"https://shotcut.org/"},
+    {n:"OpenShot",price:"free",pl:["windows","mac","linux"],lv:"Для новичка",d:"Бесплатный редактор с открытым кодом и простым интерфейсом.",u:"https://www.openshot.org/"},
+    {n:"Adobe Premiere",price:"paid",pl:["windows","mac"],lv:"Профессиональный",d:"Один из самых распространённых редакторов, хорошо работает с другими программами Adobe. Платная подписка, новичку может показаться сложным.",u:"https://www.adobe.com/products/premiere.html"},
+    {n:"Final Cut Pro",price:"paid",pl:["mac"],lv:"Профессиональный",d:"Профессиональный редактор для Mac, оптимизирован под устройства Apple.",u:"https://www.apple.com/final-cut-pro/"}
+  ];
+  var AI = [
+    {n:"Google Veo",price:"Ограниченный бесплатный доступ",pl:["Видео со звуком"],d:"Создаёт клипы по описанию, по обзорам хорошо справляется с реалистичностью и звуком. Доступ идёт через сервисы Google, условия зависят от подписки и страны.",u:"https://deepmind.google/models/veo/"},
+    {n:"Runway",price:"Бесплатные кредиты разово",pl:["Больше контроля"],d:"Ближе всего к видеоредактору среди ИИ-сервисов: есть управление камерой и инструменты правки. Бесплатных кредитов хватает на пробу.",u:"https://runwayml.com/"},
+    {n:"Kling",price:"Есть бесплатные кредиты",pl:["Движение людей"],d:"По обзорам, хорош для реалистичного движения и стоит недорого. На бесплатном тарифе бывают водяной знак и ограничения по качеству.",u:"https://klingai.com/"},
+    {n:"Luma",price:"Проверь условия на сайте",pl:["Оживление картинки"],d:"По обзорам, удобен, когда нужно оживить картинку и задать первый и последний кадр.",u:"https://lumalabs.ai/"},
+    {n:"Pika",price:"Бесплатно с водяным знаком",pl:["Короткие эффекты"],d:"Подходит для коротких эффектных вставок. Бесплатный тариф добавляет водяной знак.",u:"https://pika.art/"},
+    {n:"PixVerse",price:"Есть бесплатные пробы",pl:["Быстрые тесты"],d:"Вариант, чтобы бесплатно попробовать, как работает генерация видео.",u:"https://pixverse.ai/"}
+  ];
+  var PRICE = {free:"Бесплатно",freemium:"Есть бесплатный тариф",paid:"Платно"};
+  var PLAT = {phone:"Телефон",windows:"Windows",mac:"Mac",linux:"Linux",web:"Браузер"};
+  function el(tag,cls,text){ var e=document.createElement(tag); if(cls) e.className=cls; if(text!==undefined) e.textContent=text; return e; }
+  function card(t, badges, linkText){
+    var c = el("div","tool"), info = el("div","info");
+    info.appendChild(el("h3","",t.n));
+    var b = el("div","badges");
+    badges.forEach(function(x){ b.appendChild(el("span","badge"+(x.price?" price":""),x.t)); });
+    info.appendChild(b); info.appendChild(el("p","",t.d)); c.appendChild(info);
+    var a = el("a","lnk",linkText); a.href = t.u; a.target = "_blank"; a.rel = "noopener noreferrer"; c.appendChild(a);
+    return c;
+  }
+  var list = document.getElementById("tools-list"), fp = document.getElementById("f-price"), fl = document.getElementById("f-plat");
+  function renderTools(){
+    list.innerHTML = "";
+    var shown = TOOLS.filter(function(t){
+      return (fp.value==="all" || t.price===fp.value) && (fl.value==="all" || t.pl.indexOf(fl.value)>-1);
+    });
+    if(!shown.length){ list.appendChild(el("p","none","Ничего не найдено. Измени фильтры.")); return; }
+    shown.forEach(function(t){
+      var badges = [{t:PRICE[t.price],price:true}, {t:t.lv}];
+      t.pl.forEach(function(p){ badges.push({t:PLAT[p]}); });
+      list.appendChild(card(t,badges,"Открыть сайт"));
+    });
+  }
+  fp.addEventListener("change",renderTools); fl.addEventListener("change",renderTools);
+  renderTools();
+
+  var ai = document.getElementById("ai-list");
+  AI.forEach(function(t){
+    var badges = [{t:t.price,price:true}]; t.pl.forEach(function(p){ badges.push({t:p}); });
+    ai.appendChild(card(t,badges,"Открыть сайт"));
+  });
+
+  /* tabs */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll("[data-t]"));
+  function sel(btn){
+    tabs.forEach(function(b){
+      var on = b===btn; b.setAttribute("aria-selected",on); b.tabIndex = on?0:-1;
+      document.getElementById("tp-"+b.dataset.t).hidden = !on;
+    });
+  }
+  tabs.forEach(function(b,i){
+    b.addEventListener("click",function(){ sel(b); });
+    b.addEventListener("keydown",function(e){
+      var n = null;
+      if(e.key==="ArrowRight") n = tabs[(i+1)%tabs.length];
+      if(e.key==="ArrowLeft") n = tabs[(i-1+tabs.length)%tabs.length];
+      if(n){ e.preventDefault(); n.focus(); sel(n); }
+    });
+  });
+
+  /* copy example prompt */
+  var EX = "Камера медленно приближается к игровой мыши на столе, мягкий синий свет, в воздухе лёгкие частицы пыли, кинематографичный стиль, 5 секунд, без текста в кадре.";
+  var out = document.getElementById("copy-ex-msg");
+  function fallback(){
+    try{
+      var t = document.createElement("textarea"); t.value = EX; t.style.position="fixed"; t.style.opacity="0";
+      document.body.appendChild(t); t.select(); var ok = document.execCommand("copy"); document.body.removeChild(t);
+      out.textContent = ok ? "Скопировано." : "Не получилось. Выдели текст и скопируй вручную.";
+    }catch(e){ out.textContent = "Не получилось. Выдели текст и скопируй вручную."; }
+  }
+  document.getElementById("copy-ex").addEventListener("click",function(){
+    try{
+      if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(EX).then(function(){ out.textContent="Скопировано."; }, fallback); }
+      else { fallback(); }
+    }catch(e){ fallback(); }
+  });
+})();
+</script>
+</body>
+</html>
